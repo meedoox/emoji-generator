@@ -1,22 +1,26 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { AppService } from './app.service'
 
-describe('AppController', () => {
-  let appController: AppController;
+describe('AppService', () => {
+  let appService: AppService
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [AppController],
       providers: [AppService],
-    }).compile();
+    }).compile()
 
-    appController = app.get<AppController>(AppController);
-  });
+    appService = app.get<AppService>(AppService)
+  })
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
-    });
-  });
-});
+  it(`should be defined`, () => {
+    expect(appService).toBeDefined()
+  })
+
+  it(`should return a random emoji`, () => {
+    const emojis = appService.getEmojis()
+    const randomEmoji = appService.getEmoji()
+    const isValidEmoji = emojis.some((emoji) => emoji === randomEmoji)
+
+    expect(isValidEmoji).toBe(true)
+  })
+})
